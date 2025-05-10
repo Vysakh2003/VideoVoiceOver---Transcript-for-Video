@@ -1,4 +1,4 @@
-# VideoVoiceOver1 # ## Transcript-for-Video##
+# VideoVoiceOver1 - Transcript for Video #
 
 **Video Voice Over for Visually Impaired**, is designed to make video content more accessible to individuals with visual impairments. The system extracts key frames from a video, generates detailed image captions using a Vision Transformer (ViT) and Transformer-based decoder, summarizes those captions for brevity, and finally converts the summaries into natural-sounding speech in multiple languages.
 

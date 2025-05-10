@@ -29,6 +29,7 @@ Designed to support visually impaired individuals by narrating video content in 
 
 ### 🔗 External Dependency
 To run this project, you need to download the nlpconnect folder from the following Google Drive link:
-👉 [Download nlpconnect Zip here](# https://drive.google.com/file/d/1MQxsivP6JjNxuhV0OWwUHYBOdtPbahbY/view?usp=sharing)
+
+👉 https://drive.google.com/file/d/1MQxsivP6JjNxuhV0OWwUHYBOdtPbahbY/view?usp=sharing
 
 Make sure to place the downloaded folder in the project directory before executing the code.

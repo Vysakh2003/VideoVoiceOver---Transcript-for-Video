@@ -1,6 +1,6 @@
 # VideoVoiceOver---Transcript-for-Video
 
-"Video Voice Over for Visually Impaired", is designed to make video content more accessible to individuals with visual impairments. The system extracts key frames from a video, generates detailed image captions using a Vision Transformer (ViT) and Transformer-based decoder, summarizes those captions for brevity, and finally converts the summaries into natural-sounding speech in multiple languages.
+**Video Voice Over for Visually Impaired**, is designed to make video content more accessible to individuals with visual impairments. The system extracts key frames from a video, generates detailed image captions using a Vision Transformer (ViT) and Transformer-based decoder, summarizes those captions for brevity, and finally converts the summaries into natural-sounding speech in multiple languages.
 
 The core objective is to provide an automatic and intelligent voice narration of videos, making digital media more inclusive. By integrating computer vision, natural language processing, and speech synthesis, this system ensures that visually impaired users can understand and engage with visual content without needing sight.
 
@@ -14,15 +14,15 @@ The core objective is to provide an automatic and intelligent voice narration of
 4. Multilingual Text-to-Speech (TTS): Converts the summarized text into audio using Google TTS in multiple languages.
 
 ### 🛠️ Technologies Used
-Deep Learning Framework: PyTorch
+1. Deep Learning Framework: PyTorch
 
-Transformer Models: Vision Transformer (ViT), Transformer Decoder
+2. Transformer Models: Vision Transformer (ViT), Transformer Decoder
 
-NLP Tools: HuggingFace Transformers, BART for summarization
+3. NLP Tools: HuggingFace Transformers, BART for summarization
 
-Speech: gTTS (Google Text-to-Speech)
+4. Speech: gTTS (Google Text-to-Speech)
 
-Video Processing: OpenCV
+5. Video Processing: OpenCV
 
 ### 🎓 Purpose
 Designed to support visually impaired individuals by narrating video content in natural language.

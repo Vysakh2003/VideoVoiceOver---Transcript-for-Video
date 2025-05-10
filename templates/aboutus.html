@@ -1,0 +1,428 @@
+<!Doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/static/VoiceVision.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  <title>Video VoiceOver</title>
+  <style>
+    body{
+    background:#000000;
+    margin-top:20px;
+}
+.card-box {
+    padding: 20px;
+    border-radius: 3px;
+    margin-bottom: 30px;
+    background-color: #fff;
+    font-style: italic;
+}
+
+.social-links li a {
+    border-radius: 50%;
+    color: rgba(121, 121, 121, .8);
+    display: inline-block;
+    height: 30px;
+    line-height: 27px;
+    border: 2px solid rgba(121, 121, 121, .5);
+    text-align: center;
+    width: 30px
+}
+
+.social-links li a:hover {
+    color: #797979;
+    border: 2px solid #797979
+}
+.thumb-lg {
+    height: 88px;
+    width: 88px;
+}
+.img-thumbnail {
+    padding: .25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    max-width: 100%;
+    height: auto;
+}
+.text-pink {
+    color: #ff679b!important;
+}
+.btn-rounded {
+    border-radius: 2em;
+}
+.text-muted {
+    color: #98a6ad!important;
+}
+h4 {
+    line-height: 22px;
+    font-size: 18px;
+}
+
+:root {
+  --secondary-color: #000000;
+  --contrast-color: #000000;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  z-index: -10;
+  background-color: var(--contrast-color);
+}
+
+.container1 {
+  display: flex;
+  height: 100vh;
+  justify-content: space-around;
+  align-items: center;
+  color: #fff;
+  animation: expand .8s ease forwards;
+  background-color: var(--secondary-color);
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  transition: all .8s ease;
+}
+
+.container_content {
+ width: 50%;
+}
+
+.container_content_inner {
+  width: 80%;
+  margin-left: 80px;
+}
+
+.container_outer_img {
+  margin: 50px;
+  width: 50%;
+  overflow: hidden;
+}   
+    
+.container_img {
+  width: 1070px;
+  height: 470px;
+  animation: slideIn 1.5s ease-in-out forwards;
+}
+
+.par {
+  font-size: 17px;
+  height: auto;
+  overflow: hidden;
+  font-style: italic;
+}
+
+p{
+  line-height: 28px;
+  transform: translateY(300px);
+  animation: slideUp .8s ease-in-out forwards .8s;
+}
+
+.title {
+  overflow: hidden;
+  height: auto;
+}
+
+.container_content_inner h1 {
+    font-size: 40px;
+    color: var(--contrast-color);
+    margin-bottom: 20px;
+    transform: translateY(100px);
+    animation: slideUp .8s ease forwards .5s;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(500px) scale(.2);
+  }
+  100% {
+    transform: translateX(0px) scale(1);
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(300px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes expand {
+  0% {
+    transform: translateX(1400px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+.scnd{
+        /* background-image: linear-gradient(to right,red,red,red,red,blue,blue); */
+        background-image: url("./static/prof_back4.png");
+        background-repeat: repeat; 
+        background-position: center; 
+        background-size: cover; 
+        background-attachment: fixed;
+    }
+    
+</style>
+</head>
+<body class="scnd">
+  <header class="scnd bg-opacity-5 text-white shadow-lg hidden md:block" style="background-color: #000000;">
+    <div class="container mx-auto flex items-center h-24">
+      <a href="/" class="flex items-center justify-center">
+        <img class="h-16" src="/static/VoiceVision.png" alt="" style="width: 30%;height: 20%;margin-left: 10%;"/>
+        
+      </a>
+      <nav class="contents font-semibold text-base lg:text-lg">
+        <ul class="mx-auto flex items-center">
+          <li class="p-5 xl:p-8 active">
+            <a href="/" onmouseover="startTooltipTimer('Home button')" onmouseout="clearTooltipTimer()">
+              <span>Home</span>
+            </a>
+          </li>
+          <li class="p-5 xl:p-8">
+            <a href="/certificate" onmouseover="startTooltipTimer('certficate button')" onmouseout="clearTooltipTimer()">
+              <span>Certificate</span>
+            </a>
+          </li>
+          <li class="p-5 xl:p-8">
+            <a href="/contactus" onmouseover="startTooltipTimer('contact button')" onmouseout="clearTooltipTimer()">
+              <span>ContactUs</span>
+            </a>
+          </li>
+
+        </ul>
+      </nav>
+    </div>
+  </header>
+ 
+  <div class= 'scnd container1'>
+    <div class="container_content">
+    <div class="container_content_inner">
+    <div class="title">
+      <h1 style="font-size: 50px;color: #BF307F;font-style: italic;" onmouseover="startTooltipTimer('Video Voiceover')" onmouseout="clearTooltipTimer()">Video VoiceOver</h1>
+    </div>
+    <div class="par" onmouseover="startTooltipTimer('Video Voice Over involves narrating key visual elements of a scene, such as actions, settings, facial expressions, and text on screen, to provide individuals with visual disabilities a comprehensive understanding of the visual context.')" onmouseout="clearTooltipTimer()">
+    <p>
+        Video Voice Over involves narrating key visual elements of a scene, such as actions, settings, facial expressions, and text on screen, to provide individuals with visual disabilities a comprehensive understanding of the visual context.
+    </p>
+    </div>
+    </div>
+    </div>
+     <div class="container_outer_img">
+     <div class="img-inner">
+     <img src='/static/aboutus_profile.jpg'  alt="" class="container_img"/>
+           </div>
+         </div>
+      </div>
+    <div class="overlay"></div>
+    <br>
+<div class="content">
+    <center><h1 style="font-size: 40px;color: #BF307F;font-style: italic;" onmouseover="startTooltipTimer('Meet out founders - Hemalakshmi, Satyajit, lakshitha, swarna ambigai, vysakh , Guru vasuki')" onmouseout="clearTooltipTimer()">Meet Our Founders</h1></center><br>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4" >
+                <div class="scnd text-center card-box text-white">
+                    <div class="member-card pt-2 pb-2">
+                        <div class="thumb-lg member-thumb mx-auto"><img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle img-thumbnail" alt="profile-image"></div>
+                        <br>
+                        <div class="">
+                            <h4 style="font-weight: bolder;">Hemalakshmi</h4>
+                            <br>
+                            <p class="text-muted" style="font-weight: bold;">@Member <span>| </span><span><a href="#" class="text-pink">20cs39@cit.edu.in</a></span></p>
+                        </div>
+                        <br>
+                        <ul class="social-links list-inline">
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a></li>
+                        </ul>
+                        <button type="button" class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light">Founder</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end col -->
+            <div class="col-lg-4">
+                <div class="scnd text-white text-center card-box">
+                    <div class="member-card pt-2 pb-2">
+                        <div class="thumb-lg member-thumb mx-auto"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle img-thumbnail" alt="profile-image"></div>
+                        <br>
+                        <div class="">
+                            <h4 style="font-weight: bolder;">Satyajit</h4>
+                            <br>
+                            <p class="text-muted" style="font-weight: bold;">@Member <span>| </span><span><a href="#" class="text-pink">20cs22@cit.edu.in</a></span></p>
+                        </div>
+                        <br>
+                        <ul class="social-links list-inline">
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a></li>
+                        </ul>
+                        <button type="button" class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light">Founder</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end col -->
+            <div class="col-lg-4">
+                <div class="scnd text-white text-center card-box">
+                    <div class="member-card pt-2 pb-2">
+                        <div class="thumb-lg member-thumb mx-auto"><img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle img-thumbnail" alt="profile-image"></div>
+                        <br>
+                        <div class="">
+                            <h4 style="font-weight: bolder;">Lakshitha</h4>
+                            <br>
+                            <p class="text-muted" style="font-weight: bold;">@Member <span>| </span><span><a href="#" class="text-pink">20cs26@cit.edu.in</a></span></p>
+                        </div>
+                        <br>
+                        <ul class="social-links list-inline">
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a></li>
+                        </ul>
+                        <button type="button" class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light">Founder</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="scnd text-white text-center card-box">
+                    <div class="member-card pt-2 pb-2">
+                        <div class="thumb-lg member-thumb mx-auto"><img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle img-thumbnail" alt="profile-image"></div>
+                        <br>
+                        <div class="">
+                            <h4 style="font-weight: bolder;">Swarna Ambigai</h4>
+                            <br>
+                            <p class="text-muted" style="font-weight: bold;">@Member <span>| </span><span><a href="#" class="text-pink">20cs47@cit.edu.in</a></span></p>
+                        </div>
+                        <br>
+                        <ul class="social-links list-inline">
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a></li>
+                        </ul>
+                        <button type="button" class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light">Founder</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end col -->
+            <div class="col-lg-4">
+                <div class="scnd text-white text-center card-box">
+                    <div class="member-card pt-2 pb-2">
+                        <div class="thumb-lg member-thumb mx-auto"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle img-thumbnail" alt="profile-image"></div>
+                        <br>
+                        <div class="">
+                            <h4 style="font-weight: bolder;">Vysakh</h4>
+                            <br>
+                            <p class="text-muted" style="font-weight: bold;">@Member <span>| </span><span><a href="#" class="text-pink">20cs54@cit.edu.in</a></span></p>
+                        </div>
+                        <br>
+                        <ul class="social-links list-inline">
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a></li>
+                        </ul>
+                        <button type="button" class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light">Founder</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end col -->
+            <div class="col-lg-4">
+                <div class="scnd text-white text-center card-box">
+                    <div class="member-card pt-2 pb-2">
+                        <div class="thumb-lg member-thumb mx-auto"><img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle img-thumbnail" alt="profile-image"></div>
+                        <br>
+                        <div class="">
+                            <h4 style="font-weight: bolder;">Guruvasuki</h4>
+                            <br>
+                            <p class="text-muted" style="font-weight: bold;">@Member <span>| </span><span><a href="#" class="text-pink">71762105207@cit.edu.in</a></span></p>
+                        </div>
+                        <br>
+                        <ul class="social-links list-inline">
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a></li>
+                        </ul>
+                        <button type="button" class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light">Founder</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end col -->
+        </div>
+    </div>
+    <!-- container -->
+</div>
+<script>
+  window.onload = function() {
+        startTooltipTimer("Welcome to the about page");
+    };
+ localStorage.setItem('currentPage', 'about');
+
+const last_page = localStorage.getItem('currentPage');
+  $(document).ready(function() {
+    // Periodically check for the last recognized command
+    setInterval(function() {
+        $.ajax({
+            type: "GET",
+            url: "/get_last_command",
+            success: function(response) {
+                var lastCommand = response.last_command;
+                console.log(lastCommand,last_page)
+                if (lastCommand) {
+                    if (lastCommand.includes("home") && last_page!="home") {
+          
+                        window.location.href = "/";  // Redirect to the home page
+                    } else if (lastCommand.includes("about") && last_page != "about") {
+                
+                        window.location.href = "/aboutus";  // Redirect to the about us page
+                    } else if (lastCommand.includes("certificate") && last_page != "certificate") {
+              
+                        window.location.href = "/certificate";  // Redirect to the certificate page
+                    }
+                    else if (lastCommand.includes("contact") && last_page != "contact") {
+                        // last_page = "contact"
+                        window.location.href = "/contactus";  // Redirect to the contact page
+                    }
+                }
+            },
+            error: function(error) {
+                console.log("Error:", error);
+            }
+        });
+    }, 1000);  // Adjust the interval based on your needs
+});
+
+var tooltipTimer;
+
+    function startTooltipTimer(text) {
+        tooltipTimer = setTimeout(function () {
+            speakTooltip(text);
+        }, 1000); // Set the duration in milliseconds (e.g., 2000 ms = 2 seconds)
+    }
+
+    function clearTooltipTimer() {
+        clearTimeout(tooltipTimer);
+    }
+
+    function speakTooltip(text) {
+        window.speechSynthesis.cancel(); 
+        var utterance = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(utterance);
+    }
+</script>
+</body>
+</html>

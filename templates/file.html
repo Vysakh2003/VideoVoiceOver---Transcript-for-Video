@@ -1,0 +1,341 @@
+<!Doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/static/VoiceVision.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+  <title>Video VoiceOver</title>
+  <style>
+    body {
+        background-color: #000000 !important;
+        text-decoration: white;
+    }
+    .has-mask {
+		position: absolute;
+		clip: rect(10px, 150px, 130px, 10px);
+	}
+  .box{
+  background: #fff;
+  line-height: 30px;
+  color: #009688;
+  padding: 40px;
+  box-shadow:
+	  inset #009688 0 0 0 5px, 
+    inset #059c8e 0 0 0 1px, 
+    inset #0cab9c 0 0 0 10px, 
+    inset #1fbdae 0 0 0 11px, 
+    inset #8ce9ff 0 0 0 16px, 
+    inset #48e4d6 0 0 0 17px, 
+    inset #e5f9f7 0 0 0 21px, 
+    inset #bfecf7 0 0 0 22px;
+  text-shadow: 3px 3px 1px #bfecf7;
+}
+:root {
+	--sp: 2.5s; /* change speed */
+}	
+.content {
+	width: 50vmin;
+	height: 50vmin;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+  align-self: center;
+  margin-left: 40%;
+  margin-top: 8%;
+	transform: scale(0.65);
+	animation: spin-all calc(var(--sp) * 2) linear 0s infinite
+}
+
+.circle {
+	--in: 80%;
+	--ar: #ff9800;
+	--dt: #ffea34;
+	--shadow: drop-shadow(0vmin 0vmin 0.5vmin #000) drop-shadow(0vmin 1vmin 0.5vmin #0004);
+	--cross: linear-gradient(0deg, #fff0 calc(50% - 2px), #000 calc(50% - 1px) calc(50% + 1px), #fff0 calc(50% + 2px)), linear-gradient(90deg, #fff0 calc(50% - 2px), #000 calc(50% - 1px) calc(50% + 1px), #fff0 calc(50% + 2px));
+    border: 6vmin solid var(--ar);
+    width: var(--in);
+    height: var(--in);
+    border-radius: 100%;
+    position: absolute;
+    box-sizing: border-box;
+    border-top-color: #fff0;
+    border-left-color: #fff0;
+    top: 15vmin;
+    right: -10vmin;
+    animation: spin-bot var(--sp) ease 0s infinite;
+    background-image: var(--cross), radial-gradient(var(--dt) 5.5vmin, #fff0 calc(5.5vmin + 1px));
+	background-repeat: no-repeat;
+    background-size: 3vmin 1vmin, 1vmin 3vmin, 100% 100%;
+    background-position: center center;
+	filter: var(--shadow);
+}
+
+.circle:nth-child(2) {
+    --in: 60%;
+    top: -2vmin;
+    animation: spin-top var(--sp) ease 0s infinite;
+    transform: rotate(-45deg);
+    background-image: var(--cross), radial-gradient(var(--dt) 1.25vmin, #fff0 calc(1.25vmin + 1px));
+    right: -4vmin;
+	filter: hue-rotate(10deg) var(--shadow);
+    background-size: 1.4vmin 1vmin, 1vmin 1.4vmin, 100% 100%;
+}
+
+.circle:nth-child(3) {
+    --in: 100%;
+    top: -5vmin;
+    left: -13vmin;
+    transform: rotate(175deg);
+    animation: spin-left var(--sp) ease calc(var(--sp) / 4) infinite;
+    background-image: var(--cross), radial-gradient(var(--dt) 9vmin, #fff0 calc(9vmin + 1px));
+	filter: hue-rotate(20deg) var(--shadow);
+    background-size: 5vmin 1vmin, 1vmin 5vmin, 100% 100%;
+}
+
+.circle:nth-child(4) {
+    --in: 60%;
+    top: 35vmin;
+    left: -6vmin;
+    transform: rotate(-280deg);
+    animation: spin-last var(--sp) ease calc(calc(calc(var(--sp) / 4) + var(--sp)) * -1) infinite;
+    background-image: var(--cross), radial-gradient(var(--dt) 2.5vmin, #fff0 calc(2.5vmin + 1px));
+	filter: hue-rotate(30deg) var(--shadow);
+    background-size: 2vmin 1vmin, 1vmin 2vmin, 100% 100%;
+}
+
+
+@keyframes spin-all {
+	0% { transform: rotate(0deg) scale(0.65); }
+	100% { transform: rotate(360deg) scale(0.65); }
+}
+
+
+@keyframes spin-top {
+	0% { transform: rotate(-45deg); }
+	100% { transform: rotate(315deg); }
+}
+
+@keyframes spin-bot {
+	0%, 35% { transform: rotate(0deg); }
+	80%, 100% { transform: rotate(-360deg); }
+}
+
+@keyframes spin-left {
+	0%, 35% { transform: rotate(175deg); }
+	80%, 100% { transform: rotate(535deg); }
+}
+
+@keyframes spin-last {
+	0%, 10% { transform: rotate(-280deg); }
+	90%, 100% { transform: rotate(-640deg); }
+}
+</style>
+</head>
+<body>
+  <header class="bg-opacity-5 text-white shadow-lg hidden md:block" style="background-color: #000000;">
+    <div class="container mx-auto flex items-center h-24">
+      <a href="" class="flex items-center justify-center">
+        <img class="h-16" src="/static/VoiceVision.png" alt="" style="width: 30%;height: 20%;margin-left: 10%;"/>
+        
+      </a>
+      <nav class="contents font-semibold text-base lg:text-lg">
+        <ul class="mx-auto flex items-center">
+          <li class="p-5 xl:p-8 active">
+            <a href="/" onmouseover="startTooltipTimer('Home button');" onmouseout="clearTooltipTimer()">
+              <span>Home</span>
+            </a>
+          </li>
+          <li class="p-5 xl:p-8">
+            <a href="/aboutus" onmouseover="startTooltipTimer('about button')" onmouseout="clearTooltipTimer()">
+              <span>AboutUs</span>
+            </a>
+          </li>
+          <li class="p-5 xl:p-8">
+            <a href="/contactus" onmouseover="startTooltipTimer('contact button')" onmouseout="clearTooltipTimer()">
+              <span>ContactUs</span>
+            </a>
+          </li>
+
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <div id="display_div" onmouseover="startTooltipTimer('Uploading')" onmouseout="clearTooltipTimer()">
+      
+  </div>
+<div id="onload_div" class="relative min-h-screen flex items-center justify-center bg-black-50 py-12 px-4 sm:px-6 lg:px-8 bg-black-500 bg-no-repeat bg-cover relative items-center">
+	<div class="absolute bg-black opacity-60 inset-0 z-0"></div>
+	<div class="box sm:max-w-lg w-full p-10 bg-white rounded-xl z-10">
+		<div class="text-center">
+			<h2 class="mt-5 text-3xl font-bold text-gray-900" onmouseover="startTooltipTimer('Video VoiceOver')" onmouseout="clearTooltipTimer()">
+				Video VoiceOver
+			</h2>
+			<p class="mt-2 text-sm text-gray-400" onmouseover="startTooltipTimer('empowering sight through sound')" onmouseout="clearTooltipTimer()">Empowering Sight through Sound</p><br>
+      {% with messages = get_flashed_messages() %} {% if
+        messages%} {% for msg in messages %}
+        <center><div class="alert alert-danger" role="alert" style="width: 300px;" onmouseover="startTooltipTimer('{{ msg }}')" onmouseout="clearTooltipTimer()">
+          {{ msg }}
+        </div></center>
+        {% endfor %} {% endif %} {% endwith %}
+		</div>
+        <form class="mt-8 space-y-3" action="/load" method="POST" enctype="multipart/form-data">
+                    <div class="grid grid-cols-1 space-y-2">
+                        <label class="text-sm font-bold text-gray-500 tracking-wide">Paste the Link</label>
+                            <input class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" name="lin" id="lin" type="" placeholder="" onmouseover="startTooltipTimer('paste the Link')" onmouseout="clearTooltipTimer()">
+                    </div>
+                    <div class="grid grid-cols-1 space-y-2">
+                                    <label class="text-sm font-bold text-gray-500 tracking-wide">Attach Document</label>
+                        <div class="flex items-center justify-center w-full file-upload-container" id="fileUploadContainer" onmouseover="startTooltipTimer('Attach document')" onmouseout="clearTooltipTimer()">
+                            <label class="flex flex-col rounded-lg border-4 border-dashed w-full h-60 p-10 group text-center file-upload-label" id="file-label" >
+                                <div class="h-full w-full text-center flex flex-col items-center justify-center items-center  ">
+                                    <!---<svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-blue-400 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                    </svg>-->
+                                    <div class="flex flex-auto max-h-48 w-2/5 mx-auto -mt-10" id="file-info">
+                                    <img class="has-mask h-36 object-center" src="https://img.freepik.com/free-vector/image-upload-concept-landing-page_52683-27130.jpg?size=338&ext=jpg" alt="freepik image" id="file-preview">
+                                    </div>
+                                    <p class="pointer-none text-gray-500 " id="file-info" ><span class="text-sm">Drag and drop</span> files here <br /> or <a href="" id="file-select" class="text-blue-600 hover:underline">select a file</a> from your computer</p>
+                                </div>
+                                <input type="file" name="file-upload" id="file-upload" class="hidden" onchange="handleFileSelect()">
+                            </label>
+                        </div>
+                    </div>
+                            <p class="text-sm text-black-300" id="file-inf">
+                                <span>File type: mp4,avi,mov,mkv etc..</span>
+                            </p>
+                    <div>
+                        <button type="submit" id = "uploading" onclick="submitBtn()" class="my-5 w-full flex justify-center bg-blue-500 text-gray-100 p-4  rounded-full tracking-wide
+                                    font-semibold  focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-lg cursor-pointer transition ease-in duration-300" onmouseover="startTooltipTimer('click to Upload')" onmouseout="clearTooltipTimer()">
+                        Upload
+                    </button>
+                    </div>
+        </form>
+	</div>
+</div>
+<script>
+  window.onload = function() {
+        startTooltipTimer("Welcome to the home page");
+    };
+    
+
+    function submitBtn(){
+ 
+      document.getElementById("onload_div").style.display = "none";
+      var onload_div = document.getElementById("display_div");
+      onload_div.style.visibility = "block";
+      onload_div.innerHTML = `<div class="content" onmouseover="startTooltipTimer('Uploading')" onmouseout="clearTooltipTimer()">
+	<div class="circle"></div>
+	<div class="circle"></div>
+	<div class="circle"></div>
+	<div class="circle"></div>
+</div><br><br>
+<center>
+  <h1 style="font-size: 40px;color: white;font-style: italic;" onmouseover="startTooltipTimer('uploading')" onmouseout="clearTooltipTimer()">Uploading....</h1>
+</center>
+`;
+      
+
+  }
+  function handleFileSelect() {
+        const fileInput = document.getElementById('file-upload');
+        const fileContainer = document.getElementById('file-container');
+        const fileLabel = document.getElementById('file-label');
+        const filePreview = document.getElementById('file-preview');
+        const fileInfo = document.getElementById('file-info');
+        const filein = document.getElementById('file-inf')
+        const selectedFile = fileInput.files[0];
+
+        if (selectedFile) {
+            // Display the selected file name and preview the image (if it's an image)
+            fileLabel.classList.add('hidden');
+            filein.innerHTML = `<p class="pointer-none text-gray-500">${selectedFile.name}</p>`;
+            fileInfo.innerHTML = `<p class="pointer-none text-gray-500">${selectedFile.name}</p>`;
+            
+            if (selectedFile.type.startsWith('image/')) {
+                filePreview.src = URL.createObjectURL(selectedFile);
+                filePreview.classList.remove('hidden');
+            } else {
+                filePreview.classList.add('hidden');
+            }
+        }
+    }
+
+    document.getElementById('file-select').addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('file-upload').click();
+    });
+
+  localStorage.setItem('currentPage', 'home');
+
+  const last_page = localStorage.getItem('currentPage');
+    var upload_flag = true;
+  $(document).ready(function() {
+    // Periodically check for the last recognized command
+    setInterval(function() {
+        $.ajax({
+            type: "GET",
+            url: "/get_last_command",
+            success: function(response) {
+                var lastCommand = response.last_command;
+                if (lastCommand) {
+                    if (lastCommand.includes("home") && last_page!="home") {
+                        window.location.href = "/";  // Redirect to the home page
+                    } else if (lastCommand.includes("about") && last_page != "about") {
+                        window.location.href = "/aboutus";  // Redirect to the about us page
+                    } else if (lastCommand.includes("certificate") && last_page != "certificate") {
+                        window.location.href = "/certificate";  // Redirect to the certificate page
+                    }
+                    else if (lastCommand.includes("contact") && last_page != "contact") {
+                        // last_page = "contact"
+                        window.location.href = "/contactus";  // Redirect to the contact page
+                    }
+                    else if (lastCommand.includes("upload")){
+                      var uploadButton = document.getElementById("uploading");
+                      uploadButton.click();
+                    }
+
+                }
+            },
+            error: function(error) {
+                console.log("Error:", error);
+            }
+        });
+    }, 1000);  // Adjust the interval based on your needs
+});
+document.addEventListener('DOMContentLoaded', function() {
+      var playArea = document.getElementById('fileUploadContainer');
+      var audio = new Audio('static/buzzer.wav');
+
+      playArea.addEventListener('mouseenter', function() {
+        audio.play();
+      });
+    });
+
+    var tooltipTimer;
+
+    function startTooltipTimer(text) {
+        tooltipTimer = setTimeout(function () {
+            speakTooltip(text);
+        }, 1000); // Set the duration in milliseconds (e.g., 2000 ms = 2 seconds)
+    }
+
+    function clearTooltipTimer() {
+        clearTimeout(tooltipTimer);
+    }
+
+    function speakTooltip(text) {
+        window.speechSynthesis.cancel(); 
+        var utterance = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(utterance);
+    }
+
+    
+
+</script>
+</body>
+</html>

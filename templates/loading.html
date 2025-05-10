@@ -1,0 +1,213 @@
+<!Doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/static/VoiceVision.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+  <title>VoiceVision</title>
+  <style>
+    :root {
+	--sp: 2.5s; /* change speed */
+}		
+
+body {
+    align-items: center;
+	justify-content: center;
+	
+	background-color: #000000;
+}
+
+.content {
+    margin-top: 8%;
+    margin-left: 40%;
+	width: 50vmin;
+	height: 50vmin;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transform: scale(0.65);
+	animation: spin-all calc(var(--sp) * 2) linear 0s infinite
+}
+
+.circle {
+	--in: 80%;
+	--ar: #ff9800;
+	--dt: #ffea34;
+	--shadow: drop-shadow(0vmin 0vmin 0.5vmin #000) drop-shadow(0vmin 1vmin 0.5vmin #0004);
+	--cross: linear-gradient(0deg, #fff0 calc(50% - 2px), #000 calc(50% - 1px) calc(50% + 1px), #fff0 calc(50% + 2px)), linear-gradient(90deg, #fff0 calc(50% - 2px), #000 calc(50% - 1px) calc(50% + 1px), #fff0 calc(50% + 2px));
+    border: 6vmin solid var(--ar);
+    width: var(--in);
+    height: var(--in);
+    border-radius: 100%;
+    position: absolute;
+    box-sizing: border-box;
+    border-top-color: #fff0;
+    border-left-color: #fff0;
+    top: 15vmin;
+    right: -10vmin;
+    animation: spin-bot var(--sp) ease 0s infinite;
+    background-image: var(--cross), radial-gradient(var(--dt) 5.5vmin, #fff0 calc(5.5vmin + 1px));
+	background-repeat: no-repeat;
+    background-size: 3vmin 1vmin, 1vmin 3vmin, 100% 100%;
+    background-position: center center;
+	filter: var(--shadow);
+}
+
+.circle:nth-child(2) {
+    --in: 60%;
+    top: -2vmin;
+    animation: spin-top var(--sp) ease 0s infinite;
+    transform: rotate(-45deg);
+    background-image: var(--cross), radial-gradient(var(--dt) 1.25vmin, #fff0 calc(1.25vmin + 1px));
+    right: -4vmin;
+	filter: hue-rotate(10deg) var(--shadow);
+    background-size: 1.4vmin 1vmin, 1vmin 1.4vmin, 100% 100%;
+}
+
+.circle:nth-child(3) {
+    --in: 100%;
+    top: -5vmin;
+    left: -13vmin;
+    transform: rotate(175deg);
+    animation: spin-left var(--sp) ease calc(var(--sp) / 4) infinite;
+    background-image: var(--cross), radial-gradient(var(--dt) 9vmin, #fff0 calc(9vmin + 1px));
+	filter: hue-rotate(20deg) var(--shadow);
+    background-size: 5vmin 1vmin, 1vmin 5vmin, 100% 100%;
+}
+
+.circle:nth-child(4) {
+    --in: 60%;
+    top: 35vmin;
+    left: -6vmin;
+    transform: rotate(-280deg);
+    animation: spin-last var(--sp) ease calc(calc(calc(var(--sp) / 4) + var(--sp)) * -1) infinite;
+    background-image: var(--cross), radial-gradient(var(--dt) 2.5vmin, #fff0 calc(2.5vmin + 1px));
+	filter: hue-rotate(30deg) var(--shadow);
+    background-size: 2vmin 1vmin, 1vmin 2vmin, 100% 100%;
+}
+
+
+@keyframes spin-all {
+	0% { transform: rotate(0deg) scale(0.65); }
+	100% { transform: rotate(360deg) scale(0.65); }
+}
+
+
+@keyframes spin-top {
+	0% { transform: rotate(-45deg); }
+	100% { transform: rotate(315deg); }
+}
+
+@keyframes spin-bot {
+	0%, 35% { transform: rotate(0deg); }
+	80%, 100% { transform: rotate(-360deg); }
+}
+
+@keyframes spin-left {
+	0%, 35% { transform: rotate(175deg); }
+	80%, 100% { transform: rotate(535deg); }
+}
+
+@keyframes spin-last {
+	0%, 10% { transform: rotate(-280deg); }
+	90%, 100% { transform: rotate(-640deg); }
+}
+
+    
+  </style>
+</head>  
+<body class = "scnd">
+    <header class="bg-opacity-5 text-white shadow-lg hidden md:block" style="background-color: #000000;">
+        <div class="container mx-auto flex items-center h-24">
+          <a href="/" class="flex items-center justify-center">
+            <img class="h-16" src="/static/VoiceVision.png" alt="" style="width: 30%;height: 20%;margin-left: 10%;"/>
+            
+          </a>
+          <nav class="contents font-semibold text-base lg:text-lg">
+            <ul class="mx-auto flex items-center">
+              <li class="p-5 xl:p-8 active">
+                <a href="/">
+                  <span>Home</span>
+                </a>
+              </li>
+              <li class="p-5 xl:p-8">
+                <a href="/about">
+                  <span>AboutUs</span>
+                </a>
+              </li>
+    
+            </ul>
+          </nav>
+        </div>
+      </header>
+  <div class="content">
+	<div class="circle"></div>
+	<div class="circle"></div>
+	<div class="circle"></div>
+	<div class="circle"></div>
+    
+</div>
+<br>
+<h1 class="text-4xl font-bold text-white" style="align-self: center;margin-left: 46%;">Processing...</h1><br>
+<script>
+  localStorage.setItem('currentPage', 'load');
+
+const last_page = localStorage.getItem('currentPage');
+
+  $(document).ready(function() {
+    // Periodically check for the last recognized command
+    setInterval(function() {
+        $.ajax({
+            type: "GET",
+            url: "/get_last_command",
+            success: function(response) {
+                var lastCommand = response.last_command;
+                if (lastCommand) {
+                    if (lastCommand.includes("home") && last_page!="home") {
+                        // last_page = "home"
+                        window.location.href = "/";  // Redirect to the home page
+                    } else if (lastCommand.includes("about") && last_page != "about") {
+                        // last_page = "about"
+                        window.location.href = "/aboutus";  // Redirect to the about us page
+                    } else if (lastCommand.includes("certificate") && last_page != "certificate") {
+                        // last_page = "certificate"
+                        window.location.href = "/certificate";  // Redirect to the certificate page
+                    }
+                    else if (lastCommand.includes("contact") && last_page != "contact") {
+                        // last_page = "contact"
+                        window.location.href = "/contactus";  // Redirect to the contact page
+                    }
+                }
+            },
+            error: function(error) {
+                console.log("Error:", error);
+            }
+        });
+    }, 1000);  // Adjust the interval based on your needs
+});
+
+var tooltipTimer;
+
+    function startTooltipTimer(text) {
+        tooltipTimer = setTimeout(function () {
+            speakTooltip(text);
+        }, 1000); // Set the duration in milliseconds (e.g., 2000 ms = 2 seconds)
+    }
+
+    function clearTooltipTimer() {
+        clearTimeout(tooltipTimer);
+    }
+
+    function speakTooltip(text) {
+        window.speechSynthesis.cancel(); 
+        var utterance = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(utterance);
+    }
+</script>
+</body>
+</html>

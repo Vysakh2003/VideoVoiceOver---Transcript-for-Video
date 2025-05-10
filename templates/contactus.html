@@ -1,0 +1,398 @@
+<!Doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/static/VoiceVision.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+  <title>Video VoiceOver</title>
+  <style>
+    body {
+        background-color: #000000 !important;
+        text-decoration: white;
+    }
+    .has-mask {
+		position: absolute;
+		clip: rect(10px, 150px, 130px, 10px);
+	}
+    button, input {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    }
+
+    .background {
+    display: flex;
+    min-height: 85vh;
+    }
+
+    .container {
+    flex: 0 1 700px;
+    margin: auto;
+    padding: 10px;
+    }
+
+    .screen {
+    position: relative;
+    background: #3e3e3e;
+    border-radius: 15px;
+    }
+
+    .screen:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 20px;
+    right: 20px;
+    bottom: 0;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, .4);
+    z-index: -1;
+    }
+
+    .screen-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: #4d4d4f;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    }
+
+    .screen-header-left {
+    margin-right: auto;
+    }
+
+    .screen-header-button {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 3px;
+    border-radius: 8px;
+    background: white;
+    }
+
+    .screen-header-button.close {
+    background: #ed1c6f;
+    }
+
+    .screen-header-button.maximize {
+    background: #e8e925;
+    }
+
+    .screen-header-button.minimize {
+    background: #74c54f;
+    }
+
+    .screen-header-right {
+    display: flex;
+    }
+
+    .screen-header-ellipsis {
+    width: 3px;
+    height: 3px;
+    margin-left: 2px;
+    border-radius: 8px;
+    background: #999;
+    }
+
+    .screen-body {
+    display: flex;
+    }
+
+    .screen-body-item {
+    flex: 1;
+    padding: 50px;
+    }
+
+    .screen-body-item.left {
+    display: flex;
+    flex-direction: column;
+    }
+
+    .app-title {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: #ea1d6f;
+    font-size: 26px;
+    }
+
+    .app-title:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 25px;
+    height: 4px;
+    background: #ea1d6f;
+    }
+
+    .app-contact {
+    margin-top: auto;
+    font-size: 8px;
+    color: #888;
+    }
+
+    .app-form-group {
+    margin-bottom: 15px;
+    }
+
+    .app-form-group.message {
+    margin-top: 40px;
+    }
+
+    .app-form-group.buttons {
+    margin-bottom: 0;
+    text-align: right;
+    }
+
+    .app-form-control {
+    width: 100%;
+    padding: 10px 0;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #666;
+    color: #ddd;
+    font-size: 14px;
+    /* text-transform: uppercase; */
+    outline: none;
+    transition: border-color .2s;
+    }
+
+    .app-form-control::placeholder {
+    color: #666;
+    }
+
+    .app-form-control:focus {
+    border-bottom-color: #ddd;
+    }
+
+    .app-form-button {
+    padding: 13px;
+    background: none;
+    border: none;
+    color: #ea1d6f;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+    }
+
+    .app-form-button:hover {
+    color: #b9134f;
+    }
+
+    .credits {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    color: #ffa4bd;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    }
+
+    .credits-link {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    }
+
+    .dribbble {
+    width: 20px;
+    height: 20px;
+    margin: 0 5px;
+    }
+
+    @media screen and (max-width: 520px) {
+    .screen-body {
+        flex-direction: column;
+    }
+
+    .screen-body-item.left {
+        margin-bottom: 30px;
+    }
+
+    .app-title {
+        flex-direction: row;
+    }
+
+    .app-title span {
+        margin-right: 12px;
+    }
+
+    .app-title:after {
+        display: none;
+    }
+    }
+
+    @media screen and (max-width: 600px) {
+    .screen-body {
+        padding: 40px;
+    }
+
+    .screen-body-item {
+        padding: 0;
+    }
+    }
+    .scnd{
+        /* background-image: linear-gradient(to right,red,red,red,red,blue,blue); */
+        background-image: url("./static/prof_back4.png");
+        background-repeat: repeat; 
+        background-position: center; 
+        background-size: cover; 
+        background-attachment: fixed;
+    }
+</style>
+</head>
+<body class="scnd">
+  <header class="scnd bg-opacity-5 text-white shadow-lg hidden md:block" style="background-color: #000000;">
+    <div class="container mx-auto flex items-center h-24">
+      <a href="" class="flex items-center justify-center">
+        <img class="h-16" src="/static/VoiceVision.png" alt="" style="width: 30%;height: 20%;margin-left: 10%;"/>
+        
+      </a>
+      <nav class="contents font-semibold text-base lg:text-lg">
+        <ul class="mx-auto flex items-center">
+          <li class="p-5 xl:p-8 active">
+            <a href="/" onmouseover="startTooltipTimer('Home button')" onmouseout="clearTooltipTimer()">
+              <span>Home</span>
+            </a>
+          </li>
+          <li class="p-5 xl:p-8">
+            <a href="/aboutus" onmouseover="startTooltipTimer('about button')" onmouseout="clearTooltipTimer()">
+              <span>AboutUs</span>
+            </a>
+          </li>
+          <li class="p-5 xl:p-8">
+            <a href="/certificate" onmouseover="startTooltipTimer('certficate button')" onmouseout="clearTooltipTimer()">
+              <span>Certificate</span>
+            </a>
+          </li>
+
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <form action="#" method="post">
+  <div class="background">
+    <div class="container">
+        {% with messages = get_flashed_messages() %} {% if
+            messages%} {% for msg in messages %}
+            <center><div class="alert alert-success" role="alert" style="width: 300px;">
+              {{ msg }}
+            </div></center>
+            {% endfor %} {% endif %} {% endwith %}
+      <div class="screen">
+        <div class="screen-header">
+          <div class="screen-header-left">
+            <div class="screen-header-button close"></div>
+            <div class="screen-header-button maximize"></div>
+            <div class="screen-header-button minimize"></div>
+          </div>
+          <div class="screen-header-right">
+            <div class="screen-header-ellipsis"></div>
+            <div class="screen-header-ellipsis"></div>
+            <div class="screen-header-ellipsis"></div>
+          </div>
+        </div>
+        <div class="screen-body">
+          <div class="screen-body-item left">
+            <div class="app-title">
+              <span>CONTACT</span>
+              <span>US</span>
+            </div>
+            <div class="app-contact">CONTACT INFO : +91 96521 46680</div>
+          </div>
+          <div class="screen-body-item">
+            <div class="app-form">
+              <div class="app-form-group">
+                <input class="app-form-control" placeholder="NAME" name="name" id="name" onmouseover="startTooltipTimer('click and type your name')" onmouseout="clearTooltipTimer()">
+              </div>
+              <div class="app-form-group">
+                <input class="app-form-control" placeholder="EMAIL" name="email" id="email" onmouseover="startTooltipTimer('click and type your email')" onmouseout="clearTooltipTimer()">
+              </div>
+              <div class="app-form-group">
+                <input class="app-form-control" placeholder="CONTACT NO" name="contact" id="contact" onmouseover="startTooltipTimer('click and type your contact')" onmouseout="clearTooltipTimer()" >
+              </div>
+              <div class="app-form-group message">
+                <input class="app-form-control" placeholder="MESSAGE" name="message" id="message" onmouseover="startTooltipTimer('click and type your message')" onmouseout="clearTooltipTimer()">
+              </div>
+              <div class="app-form-group buttons">
+                <button class="app-form-button" onmouseover="startTooltipTimer('click to cancel')" onmouseout="clearTooltipTimer()">CANCEL</button>
+                <button class="app-form-button" onclick="location.href='/contactus'" onmouseover="startTooltipTimer('click to send')" onmouseout="clearTooltipTimer()">SEND</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></form>
+  <script>
+    window.onload = function() {
+        startTooltipTimer("Welcome to the contact page");
+    };
+    localStorage.setItem('currentPage', 'contact');
+
+const last_page = localStorage.getItem('currentPage');
+  $(document).ready(function() {
+    // Periodically check for the last recognized command
+    setInterval(function() {
+        $.ajax({
+            type: "GET",
+            url: "/get_last_command",
+            success: function(response) {
+                var lastCommand = response.last_command;
+                if (lastCommand) {
+                    if (lastCommand.includes("home") && last_page!="home") {
+                       
+                        window.location.href = "/";  // Redirect to the home page
+                    } else if (lastCommand.includes("about") && last_page != "about") {
+                       
+                        window.location.href = "/aboutus";  // Redirect to the about us page
+                    } else if (lastCommand.includes("certificate") && last_page != "certificate") {
+                 
+                        window.location.href = "/certificate";  // Redirect to the certificate page
+                    }
+                    else if (lastCommand.includes("contact") && last_page != "contact") {
+                        // last_page = "contact"
+                        window.location.href = "/contactus";  // Redirect to the contact page
+                    }
+                  
+                }
+            },
+            error: function(error) {
+                console.log("Error:", error);
+            }
+        });
+    }, 1000);  // Adjust the interval based on your needs
+});
+
+var tooltipTimer;
+
+    function startTooltipTimer(text) {
+        tooltipTimer = setTimeout(function () {
+            speakTooltip(text);
+        }, 1000); // Set the duration in milliseconds (e.g., 2000 ms = 2 seconds)
+    }
+
+    function clearTooltipTimer() {
+        clearTimeout(tooltipTimer);
+    }
+
+    function speakTooltip(text) {
+        window.speechSynthesis.cancel(); 
+        var utterance = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(utterance);
+    }
+  </script>
+</body>
+</html>

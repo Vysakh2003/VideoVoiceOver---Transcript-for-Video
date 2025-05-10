@@ -1,0 +1,214 @@
+<!Doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/static/VoiceVision.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+  <title>Video VoiceOver</title>
+  <style>
+
+    @page{
+ size:A4 landscape;
+ margin:10mm;
+}
+body{
+    background-color: black;
+ margin:0;
+ padding:0;
+ height:188mm;
+}
+.content{
+ position:absolute;
+ left:10mm;
+ top:10mm;
+ height:178mm;
+ width:245mm;
+ border:1mm solid #991B1B;
+ background:white;
+}
+.border-pattern{
+ position:absolute;
+ left:4mm;
+ top:-6mm;
+ height:200mm;
+ width:267mm;
+ border:1mm solid #991B1B;
+ margin-left: 16%;
+ /* http://www.heropatterns.com/ */
+ background-color: #d6d6e4;
+ background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h16v2h-6v6h6v8H8v-6H2v6H0V0zm4 4h2v2H4V4zm8 8h2v2h-2v-2zm-8 0h2v2H4v-2zm8-8h2v2h-2V4z' fill='%23991B1B' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+.inner-content{
+ border:1mm solid #991B1B;
+ margin:4mm;
+ padding:10mm;
+ height:148mm;
+ text-align:center;
+}
+h1{
+ text-transform:uppercase;
+ font-size:48pt;
+ margin-bottom:0;
+}
+h2{
+ font-size:24pt;
+ margin-top:0;
+ padding-bottom:1mm;
+ display:inline-block;
+ border-bottom:1mm solid #991B1B;
+}
+h2::after{
+ content:"";
+ display:block;
+ padding-bottom:4mm;
+ border-bottom:1mm solid #991B1B;
+}
+h3{
+ font-size:20pt;
+ margin-bottom:0;
+ margin-top:10mm;
+}
+p{
+ font-size:16pt;
+}
+.badge{
+ width:40mm;
+ height:40mm;
+ position:absolute;
+ right:10mm;
+ bottom:10mm;
+ background-color: green;
+
+ 
+}
+</style>
+</head>
+<body>
+  <a href="#"  id="downloadLink" onmouseover="startTooltipTimer('Click to download certificate')" onmouseout="clearTooltipTimer()">
+  <div class="border-pattern html-content" >
+    <div class="content">
+     <div class="inner-content">
+      <h1>CERTIFICATE</h1>
+      <h2>OF APPRECIATION</h2>
+      <h3>This Certificate Is Proudly Presented For</h3><br>
+      <p>Using VideoVoiceOver and Enhancing It</p>
+      <h3>Thanks To</h3>
+      <p>Volunteers like You</p>
+      <h3>On</h3>
+      <p id="currentDate"></p>
+      <div class="badge">
+        <img src="/static/tick.png">
+      </div>
+     </div>
+    </div>
+   </div>
+  </a>
+   <script src="https://cdn.jsdelivr.net/npm/pdfkit/js/pdfkit.standalone.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-alpha.12/dist/html2canvas.min.js"></script>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script>
+  window.onload = function() {
+        startTooltipTimer("Welcome to the certificate page");
+    };
+  document.getElementById('downloadLink').addEventListener('click', function() {
+    html2canvas(document.querySelector('.border-pattern')).then(function(canvas) {
+      // Convert the canvas to an image and trigger download
+      var link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'certificate.png';
+      link.click();
+    });
+  });
+
+    // Create a new Date object representing the current date and time
+    const currentDate = new Date();
+
+    // Array of month names
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    // Get individual components of the date
+    const month = monthNames[currentDate.getMonth()];
+    const day = currentDate.getDate();
+    const year = currentDate.getFullYear();
+
+    // Format the date as a string
+    const formattedDate = `${month} ${day}, ${year}`;
+
+    // Display the current date inside the <p> element
+    document.getElementById('currentDate').innerText = formattedDate;
+
+    localStorage.setItem('currentPage', 'certificate');
+    localStorage.setItem('download_certificate', "1");
+      console.log(localStorage.getItem('download_certificate'));
+    const last_page = localStorage.getItem('currentPage');
+    var download_certificate = true;
+  $(document).ready(function() {
+    // Periodically check for the last recognized command
+    setInterval(function() {
+        $.ajax({
+            type: "GET",
+            url: "/get_last_command",
+            success: function(response) {
+              console.log(download_certificate);
+                var lastCommand = response.last_command;
+                if (lastCommand) {
+                    if (lastCommand.includes("home") && last_page!="home") {
+                       
+                        window.location.href = "/";  // Redirect to the home page
+                    } else if (lastCommand.includes("about") && last_page != "about") {
+                        
+                        window.location.href = "/aboutus";  // Redirect to the about us page
+                    } else if (lastCommand.includes("certificate") && last_page != "certificate") {
+                        
+                        window.location.href = "/certificate";  // Redirect to the certificate page
+                    }
+                    else if (lastCommand.includes("contact") && last_page != "contact") {
+                        // last_page = "contact"
+                        window.location.href = "/contactus";  // Redirect to the contact page
+                    }
+                    else if (lastCommand.includes("download") && download_certificate){
+                      
+                      html2canvas(document.querySelector('.border-pattern')).then(function(canvas) {
+                        // Convert the canvas to an image and trigger download
+                        download_certificate = false;
+                        var link = document.createElement('a');
+                        link.href = canvas.toDataURL('image/png');
+                        link.download = 'certificate.png';
+                        link.click();
+                      });
+                    }
+                }
+            },
+            error: function(error) {
+                console.log("Error:", error);
+            }
+        });
+    }, 1000);  // Adjust the interval based on your needs
+});
+
+var tooltipTimer;
+
+    function startTooltipTimer(text) {
+        tooltipTimer = setTimeout(function () {
+            speakTooltip(text);
+        }, 1000); // Set the duration in milliseconds (e.g., 2000 ms = 2 seconds)
+    }
+
+    function clearTooltipTimer() {
+        clearTimeout(tooltipTimer);
+    }
+
+    function speakTooltip(text) {
+        window.speechSynthesis.cancel(); 
+        var utterance = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(utterance);
+    }
+</script>
+
+</body>
+</html>
